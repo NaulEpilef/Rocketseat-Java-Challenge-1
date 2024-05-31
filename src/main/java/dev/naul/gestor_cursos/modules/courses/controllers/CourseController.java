@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.naul.gestor_cursos.modules.courses.dto.UpdateCourseRequestDTO;
 import dev.naul.gestor_cursos.modules.courses.entities.CourseEntity;
 import dev.naul.gestor_cursos.modules.courses.useCases.CreateCourseUseCase;
+import dev.naul.gestor_cursos.modules.courses.useCases.DeleteCourseUseCase;
 import dev.naul.gestor_cursos.modules.courses.useCases.ListCourseUseCase;
 import dev.naul.gestor_cursos.modules.courses.useCases.UpdateCourseUseCase;
 
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,9 @@ public class CourseController {
 
     @Autowired
     private UpdateCourseUseCase updateCourseUseCase;
+
+    @Autowired
+    private DeleteCourseUseCase deleteCourseUseCase;
 
     @PostMapping("/")
     public ResponseEntity<Object> create(@RequestBody CourseEntity courseEntity) {
@@ -56,6 +61,16 @@ public class CourseController {
         try {
             var updatedCourse = this.updateCourseUseCase.execute(id, updateCourse);
             return ResponseEntity.ok().body(updatedCourse);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id) {
+        try {
+            var message = this.deleteCourseUseCase.execute(id);
+            return ResponseEntity.ok().body(message);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
