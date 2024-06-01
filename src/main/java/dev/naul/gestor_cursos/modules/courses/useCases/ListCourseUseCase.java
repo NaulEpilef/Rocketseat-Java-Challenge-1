@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.naul.gestor_cursos.modules.courses.dto.ListCourseRequestDTO;
 import dev.naul.gestor_cursos.modules.courses.entities.CourseEntity;
 import dev.naul.gestor_cursos.modules.courses.repositories.CourseRepository;
 
@@ -14,7 +15,12 @@ public class ListCourseUseCase {
     @Autowired
     private CourseRepository courseRepository;
 
-    public List<CourseEntity> execute() {
-        return this.courseRepository.findAll();
+    public List<CourseEntity> execute(ListCourseRequestDTO listCourseRequestDTO) throws Exception {
+        var courses = this.courseRepository
+                .findByNameContainingAndCategoryContaining(listCourseRequestDTO.getName(),
+                        listCourseRequestDTO.getCategory())
+                .orElseThrow(() -> new Exception("Nada foi retornado"));
+
+        return courses;
     }
 }

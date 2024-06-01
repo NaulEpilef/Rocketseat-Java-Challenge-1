@@ -2,6 +2,7 @@ package dev.naul.gestor_cursos.modules.courses.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.naul.gestor_cursos.modules.courses.dto.ListCourseRequestDTO;
 import dev.naul.gestor_cursos.modules.courses.dto.UpdateCourseRequestDTO;
 import dev.naul.gestor_cursos.modules.courses.entities.CourseEntity;
 import dev.naul.gestor_cursos.modules.courses.useCases.CreateCourseUseCase;
@@ -12,7 +13,7 @@ import dev.naul.gestor_cursos.modules.courses.useCases.UpdateCourseUseCase;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,9 +54,9 @@ public class CourseController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Object> list() {
+    public ResponseEntity<Object> list(ListCourseRequestDTO listCourseRequestDTO) {
         try {
-            var listCourse = this.listCourseUseCase.execute();
+            var listCourse = this.listCourseUseCase.execute(listCourseRequestDTO);
             return ResponseEntity.ok().body(listCourse);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
