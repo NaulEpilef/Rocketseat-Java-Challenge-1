@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -20,8 +21,12 @@ public class CourseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank(message = "Nome é obrigatório")
     private String name;
+
+    @NotBlank(message = "Categoria é obrigatório")
     private String category;
+
     private Boolean active;
 
     @CreationTimestamp

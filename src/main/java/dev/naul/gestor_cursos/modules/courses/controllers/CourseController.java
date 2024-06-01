@@ -9,6 +9,7 @@ import dev.naul.gestor_cursos.modules.courses.useCases.DeleteCourseUseCase;
 import dev.naul.gestor_cursos.modules.courses.useCases.ListCourseUseCase;
 import dev.naul.gestor_cursos.modules.courses.useCases.ToggleCourseUseCase;
 import dev.naul.gestor_cursos.modules.courses.useCases.UpdateCourseUseCase;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -42,7 +43,7 @@ public class CourseController {
     private ToggleCourseUseCase toggleCourseUseCase;
 
     @PostMapping("/")
-    public ResponseEntity<Object> create(@RequestBody CourseEntity courseEntity) {
+    public ResponseEntity<Object> create(@Valid @RequestBody CourseEntity courseEntity) {
         try {
             var course = this.createCourseUseCase.execute(courseEntity);
             return ResponseEntity.ok().body(course);
