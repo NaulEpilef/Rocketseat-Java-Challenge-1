@@ -16,7 +16,6 @@ public class UpdateCourseUseCase {
     private CourseRepository courseRepository;
 
     public CourseEntity execute(String id, UpdateCourseRequestDTO updateCourse) throws Exception {
-        // TODO: Validate if the ID is an UUID
         var uuid = UUID.fromString(id);
         var course = this.courseRepository.findById(uuid)
                 .orElseThrow(() -> new Exception("Curso não encontrado"));
